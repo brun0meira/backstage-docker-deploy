@@ -70,10 +70,6 @@ auth:
   # see https://backstage.io/docs/auth/ to learn about auth providers
   # environment: development
   providers:
-    github:
-      development:
-        clientId: 8ab17ff15b1c312a1ded
-        clientSecret: e0f11101c8d2bdfd1a28cbd4305c023e47fb759e
     # See https://backstage.io/docs/auth/guest/provider
     guest: {}
 
