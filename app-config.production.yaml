@@ -33,7 +33,6 @@ backend:
 
 auth:
   providers:
-    # See https://backstage.io/docs/auth/guest/provider
     guest:
       dangerouslyAllowOutsideDevelopment: true
 

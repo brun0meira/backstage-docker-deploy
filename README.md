@@ -16,7 +16,6 @@ O artigo detalha o uso de diversas tecnologias para a implantação do Backstage
 - **Docker**: Para encapsular o aplicativo Backstage e suas dependências em contêineres.
 - **NGINX**: Um servidor web/proxy reverso que será utilizado para implantar o frontend separadamente do backend em contêiner Docker.
 
-
 ### Conceitos Aprendidos
 
 1. **Implantação com Docker**: Descrição dos métodos de implantação com Docker do serviço de Frontend e Backend - os dois utilizando do método de construção no host. Esse método permite criar imagens Docker para o Backstage, facilitando a distribuição e execução do aplicativo em diferentes ambientes.
@@ -71,6 +70,17 @@ Segue a estrutura de pastas e arquivos atual do diretório do backstage, vale me
 -   packages/app: Aplicação frontend do Backstage, que funciona como ponto de partida para criação do catalogo de serviços.
 -   packages/backend: Aplicação backend que ajuda a utiliza recursos como autenticação, catálogo de software, modelos de software e TechDocs e se integra com o frontend. Vale ressaltar que na criação de uma aplicação padrão do Backstage um dockerfile para o backend é gerado automaticamente.
 -   docker: Pasta com arquivos auxiliares para build e run da imagem do frontend com nginx. (Arquivos gerados posteriormente na implantação em docker com nginx)
+
+## **Configurações adicionais no Backstage:**
+
+Estamos utilizando isso exclusivamente para propósitos de aprendizado, o que vai além do escopo do objetivo principal, que é o de implantar o Backstage em contêineres Docker. Para verificar o funcionamento sem aprofundar em outros métodos de login, será permitido o uso do método de login como "guest" no Backstage em ambiente de produção através do seguinte código no arquivo `app-config.production.yaml`. 
+
+```yaml
+  auth:
+    providers:
+      guest:
+        dangerouslyAllowOutsideDevelopment: true
+```
 
 ## Docker Setup no Backend
 
@@ -213,7 +223,7 @@ inject_config
 
 ### 3. **Criar o Dockerfile do frontend::**
 
-Definição do Dockerfile usa a imagem Nginx e instala o a dependência `jq` para processamento JSON. Após isso realiza a copia dos arquivos estáticos gerados pela build do frontend para o diretório padrão do Nginx e adiciona o script de injeção de configuração criado nos passos anteriores ao ponto de entrada do contêiner. A criação desse arquivo deve ser feita na raiz do projeto do backstage.
+Definição do Dockerfile usa a imagem Nginx e instala o a dependência `jq` para processamento JSON. Após isso realiza a copia dos arquivos estáticos gerados pela build do frontend para o diretório padrão do Nginx e adiciona o script de injeção de configuração criado nos passos anteriores ao ponto de entrada do contêiner. A criação desse arquivo deve ser feita na raiz do projeto do backstage. o nome do arquivo deve ser `Dockerfile.hostbuild`.
 
 ```dockerfile
   FROM nginx:mainline
@@ -257,6 +267,7 @@ Executar o contêiner Docker com a imagem `backstage-frontend`, criada no passo 
 Obs: Certifique-se de substituir `ID_DOCKER_NETWORK` pela ID da rede Docker criada no passo 2 da seção de deploy do backend usando Docker, ou simplesmente use o nome da rede `vnetbackstage`.
 
 ![frontend_run_docker](./assets/dockerRun_frontend.png)
+
 
 ## **Rodando a aplicação após todo o processo:**
 
